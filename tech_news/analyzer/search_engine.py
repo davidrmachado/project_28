@@ -16,6 +16,7 @@ def search_by_date(date):
         result = []
 
         new_date = datetime.strptime(date, "%Y-%m-%d").strftime("%d/%m/%Y")
+
         news = search_news({"timestamp": new_date})
 
         for news in news:
@@ -29,4 +30,10 @@ def search_by_date(date):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    news = search_news(
+        {"category": {"$regex": category, "$options": "i"}}
+    )
+
+    result = [(each_news["title"], each_news["url"]) for each_news in news]
+
+    return result
